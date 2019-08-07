@@ -1,7 +1,7 @@
 # Личный проект «YetiCave»
 
 * Студент: [Игорь Ефремов](https://up.htmlacademy.ru/php/10/user/40577).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Шершнев](https://htmlacademy.ru/profile/shv_sergey).
 
 ---
 
