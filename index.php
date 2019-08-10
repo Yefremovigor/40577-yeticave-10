@@ -2,6 +2,49 @@
 $is_auth = rand(0, 1);
 
 $user_name = 'Игорь';
+
+$categories = [
+    'Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'
+];
+
+$ads = [
+    [
+        'title' => '2014 Rossignol District Snowboard',
+        'category' => 'Доски и лыжи',
+        'price' => '10999',
+        'img' => 'img/lot-1.jpg'
+    ],
+    [
+        'title' => 'DC Ply Mens 2016/2017 Snowboard',
+        'category' => 'Доски и лыжи',
+        'price' => '159999',
+        'img' => 'img/lot-2.jpg'
+    ],
+    [
+        'title' => 'Крепления Union Contact Pro 2015 года размер L/XL',
+        'category' => 'Крепления',
+        'price' => '8000',
+        'img' => 'img/lot-3.jpg'
+    ],
+    [
+        'title' => 'Ботинки для сноуборда DC Mutiny Charocal',
+        'category' => 'Ботинки',
+        'price' => '10999',
+        'img' => 'img/lot-4.jpg'
+    ],
+    [
+        'title' => 'Куртка для сноуборда DC Mutiny Charocal',
+        'category' => 'Одежда',
+        'price' => '7500',
+        'img' => 'img/lot-5.jpg'
+    ],
+    [
+        'title' => 'Маска Oakley Canopy',
+        'category' => 'Разное',
+        'price' => '5400',
+        'img' => 'img/lot-6.jpg'
+    ]
+];
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -53,9 +96,11 @@ $user_name = 'Игорь';
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
         <ul class="promo__list">
             <!--заполните этот список из массива категорий-->
-            <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="pages/all-lots.html">Имя категории</a>
-            </li>
+            <?php foreach ($categories as $key => $val): ?>
+                <li class="promo__item promo__item--boards">
+                    <a class="promo__link" href="pages/all-lots.html"><?=$val; ?></a>
+                </li>
+            <?php endforeach; ?>
         </ul>
     </section>
     <section class="lots">
@@ -91,9 +136,11 @@ $user_name = 'Игорь';
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
-            <li class="nav__item">
-                <a href="pages/all-lots.html">Название категории</a>
-            </li>
+            <?php foreach ($categories as $key => $val): ?>
+                <li class="nav__item">
+                    <a href="pages/all-lots.html"><?=$val; ?></a>
+                </li>
+            <?php endforeach; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
