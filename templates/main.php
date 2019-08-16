@@ -28,7 +28,7 @@
                             <span class="lot__cost"><?=htmlspecialchars(set_price_format($item['price'])) ?></span>
                         </div>
                         <div class="lot__timer timer">
-                            12:23
+                            <?=$item['auction_end_date'] ?>
                         </div>
                     </div>
                 </div>
