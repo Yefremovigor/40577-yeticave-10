@@ -2,7 +2,10 @@
 $is_auth = rand(0, 1);
 
 include_once('data.php');
+include_once('helpers.php');
 include_once('functions.php');
+
+date_default_timezone_set('Europe/Moscow');
 
 $content = include_template('main.php', [
     'categories' => $categories,
@@ -17,4 +20,3 @@ $layout = include_template('layout.php', [
     'content' => $content
 ]);
 print($layout);
-?>
