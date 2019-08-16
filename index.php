@@ -2,6 +2,7 @@
 $is_auth = rand(0, 1);
 
 include_once('data.php');
+include_once('helpers.php');
 include_once('functions.php');
 
 $content = include_template('main.php', [
@@ -17,4 +18,3 @@ $layout = include_template('layout.php', [
     'content' => $content
 ]);
 print($layout);
-?>
