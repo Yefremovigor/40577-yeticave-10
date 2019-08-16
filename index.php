@@ -5,6 +5,8 @@ include_once('data.php');
 include_once('helpers.php');
 include_once('functions.php');
 
+date_default_timezone_set('Europe/Moscow');
+
 $content = include_template('main.php', [
     'categories' => $categories,
     'ads' => $ads

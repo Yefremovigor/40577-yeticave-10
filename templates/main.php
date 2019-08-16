@@ -15,6 +15,7 @@
     </div>
     <ul class="lots__list">
         <?php foreach ($ads as $item): ?>
+            <?php $lot_timer = get_dt_range($item['auction_end_date']) ?>
             <li class="lots__item lot">
                 <div class="lot__image">
                     <img src="<?=$item['img'] ?>" width="350" height="260" alt="<?=htmlspecialchars($item['title']) ?>">
@@ -27,8 +28,8 @@
                             <span class="lot__amount">Стартовая цена</span>
                             <span class="lot__cost"><?=htmlspecialchars(set_price_format($item['price'])) ?></span>
                         </div>
-                        <div class="lot__timer timer">
-                            <?=$item['auction_end_date'] ?>
+                        <div class="lot__timer timer <?=is_ad_finishing($lot_timer['hour']) ?>">
+                            <?=$lot_timer['hour'].':'.$lot_timer['minute'] ?>
                         </div>
                     </div>
                 </div>
