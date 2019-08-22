@@ -25,3 +25,27 @@ INSERT INTO bets (bet, user_id, lot_id)  VALUES
   ('5500','2','6');
 INSERT INTO bets (bet, user_id, lot_id)  VALUES
   ('5600','1','6');
+
+-- Получить все категории.
+SELECT * FROM categories;
+
+-- Получить самые новые, открытые лоты. Каждый лот должен включать название, стартовую цену, ссылку на изображение, цену, название категории.
+SELECT lots.title, lots.start_price, lots.img, categories.name AS category, MAX(bets.bet) AS bet FROM lots
+  JOIN categories ON lots.category_id = categories.id
+  JOIN bets ON lots.id = bets.lot_id
+  WHERE lots.finish_date > NOW() AND lots.winner_id IS NULL
+  GROUP BY lots.id
+  ORDER BY lots.create_date DESC;
+
+-- Показать лот по его id. Получите также название категории, к которой принадлежит лот.
+SELECT * FROM lots
+  JOIN categories ON lots.category_id = categories.id
+  WHERE lots.id = 2;
+
+-- Обновить название лота по его идентификатору.
+UPDATE lots SET title = 'Куртка для сноуборда DC Mutiny Charocal 2' WHERE id = 5;
+
+-- Получить список ставок для лота по его идентификатору с сортировкой по дате.
+SELECT * FROM bets
+  WHERE lot_id = 6
+  ORDER BY create_date DESC;
