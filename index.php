@@ -1,5 +1,6 @@
 <?php
 $is_auth = rand(0, 1);
+include_once('db.php');
 
 include_once('data.php');
 include_once('helpers.php');
