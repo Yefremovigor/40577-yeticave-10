@@ -7,7 +7,3 @@ if ($db_connect) {
 } else {
     $errors[] = 'Ошибка подключения к БД: ' . mysqli_connect_error();
 }
-
-
-
-

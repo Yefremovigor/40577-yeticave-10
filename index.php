@@ -28,7 +28,7 @@ if ($db_connect) {
     // Выаолняем запрос.
     $ads_result = mysqli_query($db_connect, $ads_sql);
     if (!$ads_result) {
-        print('Ошибка в запросе');
+        $errors[] = 'Ошибка в sql запросе: ' . mysqli_error($db_connect);
     }
 
     // Конвертируем данные в массив.
@@ -42,12 +42,11 @@ if ($db_connect) {
     // Выполняем запрос.
     $categories_result = mysqli_query($db_connect, $categories_sql);
     if (!$categories_sql) {
-        print('Ошибка в запросе');
+        $errors[] = 'Ошибка в sql запросе: ' . mysqli_error($db_connect);
     }
 
     // Конвертируем данные в массив.
     $categories = mysqli_fetch_all($categories_result, MYSQLI_ASSOC);
-
 }
 
 if ($errors === []) {
