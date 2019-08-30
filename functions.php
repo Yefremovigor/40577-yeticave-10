@@ -23,3 +23,12 @@ function is_ad_finishing($hours_to_finishing) {
     }
     return $set_class;
 }
+
+function get_data_frob_db($query, $connect) {
+    $response = mysqli_query($connect, $query);
+    if (!$response) {
+        die('Ошибка в sql запросе: ' . mysqli_error($connect));
+    }
+
+    return mysqli_fetch_all($response, MYSQLI_ASSOC);
+}

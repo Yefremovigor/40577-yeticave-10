@@ -16,26 +16,14 @@ $ads_sql = 'SELECT lots.title, categories.name AS category, lots.start_price AS 
     . ' lots.img, lots.finish_date AS auction_end_date FROM lots '
     . 'JOIN categories ON lots.category_id = categories.id';
 
-// Выаолняем запрос.
-$ads_result = mysqli_query($db_connect, $ads_sql);
-if (!$ads_result) {
-    die('Ошибка в sql запросе: ' . mysqli_error($db_connect));
-}
-
-// Конвертируем данные в массив.
-$ads = mysqli_fetch_all($ads_result, MYSQLI_ASSOC);
+// Выполняем запрос и конвертируем данные в двумерный массив.
+$ads = get_data_frob_db($ads_sql, $db_connect);
 
 // Собираем запрос для получения саиска категорий.
 $categories_sql = 'SELECT * FROM categories';
 
-// Выполняем запрос.
-$categories_result = mysqli_query($db_connect, $categories_sql);
-if (!$categories_sql) {
-    die('Ошибка в sql запросе: ' . mysqli_error($db_connect));
-}
-
-// Конвертируем данные в массив.
-$categories = mysqli_fetch_all($categories_result, MYSQLI_ASSOC);
+// Выполняем запрос и конвертируем данные в двумерный массив.
+$categories = get_data_frob_db($categories_sql, $db_connect);;
 
 $content = include_template('main.php', [
     'categories' => $categories,
