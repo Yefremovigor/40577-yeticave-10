@@ -4,10 +4,10 @@ $is_auth = rand(0, 1);
 $user_name = 'Игорь';
 
 // Подключаем базу данных.
-include_once('db.php');
+require_once('db.php');
 // Поподключаем функции.
-include_once('helpers.php');
-include_once('functions.php');
+require_once('helpers.php');
+require_once('functions.php');
 // Задаем часовой пояс
 date_default_timezone_set('Europe/Moscow');
 
