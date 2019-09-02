@@ -1,7 +1,10 @@
 <?php
-function set_price_format($input) {
+function set_price_format($input, $show_currency = TRUE) {
     $price = ceil($input);
-    $price = number_format($price, 0, '.', ' ') . ' ₽';
+    $price = number_format($price, 0, '.', ' ');
+    if ($show_currency) {
+        $price .= ' ₽';
+    }
     return $price;
 }
 
