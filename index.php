@@ -12,7 +12,7 @@ require_once('functions.php');
 date_default_timezone_set('Europe/Moscow');
 
 // Собираем запрос для получения саиска лотов для главной.
-$ads_sql = 'SELECT lots.title, categories.name AS category, lots.start_price AS price,'
+$ads_sql = 'SELECT lots.id, lots.title, categories.name AS category, lots.start_price AS price,'
     . ' lots.img, lots.finish_date AS auction_end_date FROM lots '
     . 'JOIN categories ON lots.category_id = categories.id';
 
