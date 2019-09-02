@@ -24,11 +24,12 @@ function is_ad_finishing($hours_to_finishing) {
     return $set_class;
 }
 
-function get_data_from_db($query, $connect) {
+function get_data_from_db($query, $connect, $is_multidimensional = TRUE) {
     $response = mysqli_query($connect, $query);
     if (!$response) {
         die('Ошибка в sql запросе: ' . mysqli_error($connect));
     }
+    $converted_array = $is_multidimensional ? mysqli_fetch_all($response, MYSQLI_ASSOC) : mysqli_fetch_assoc($response);
 
-    return mysqli_fetch_all($response, MYSQLI_ASSOC);
+    return $converted_array;
 }
