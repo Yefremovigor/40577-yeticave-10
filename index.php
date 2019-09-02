@@ -35,7 +35,8 @@ $layout = include_template('layout.php', [
     'is_auth' => $is_auth,
     'user_name' => $user_name,
     'categories' => $categories,
-    'content' => $content
+    'content' => $content,
+    'main_class' => 'container'
 ]);
 
 print($layout);

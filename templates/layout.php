@@ -41,8 +41,7 @@
             </nav>
         </div>
     </header>
-
-    <main class="container">
+    <main class="<?=$main_class ?? '' ?>" >
         <?=$content ?>
     </main>
 
