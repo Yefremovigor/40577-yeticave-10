@@ -1,5 +1,4 @@
 <?php require_once('menu.php') ?>
-<?=var_dump($lot) ?>
 <section class="lot-item container">
     <h2><?=htmlspecialchars($lot['title'], ENT_QUOTES) ?></h2>
     <div class="lot-item__content">
