@@ -48,10 +48,16 @@ if (isset($lot['bet'])) {
 
 $lot['next_bet'] = $lot['price'] + $lot['bet_step'];
 
+$bit_form_toggle = FALSE;
+if (strtotime($lot['finish_date']) > time() && $is_auth) {
+    $bit_form_toggle = TRUE;
+}
+
 
 $content = include_template('lot-template.php', [
     'categories' => $categories,
-    'lot' => $lot
+    'lot' => $lot,
+    'bit_form_toggle' => $bit_form_toggle
 ]);
 
 $layout = include_template('layout.php', [
