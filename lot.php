@@ -30,7 +30,7 @@ $categories = get_data_from_db($categories_sql, $db_connect);
 $lot_id = $_GET['lot_id'];
 
 // Собираем запрос на получение лота по id.
-$lot_sql = 'SELECT lots.title, lots.start_price AS price, lots.img, '
+$lot_sql = 'SELECT lots.id, lots.title, lots.start_price AS price, lots.img, '
     . 'categories.name AS category, lots.description, lots.finish_date, '
     . 'lots.bet_step, MAX(bets.bet) AS bet '
     . 'FROM lots '
@@ -41,13 +41,24 @@ $lot_sql = 'SELECT lots.title, lots.start_price AS price, lots.img, '
 // Выполняем запрос и конвертируем данные в двумерный массив.
 $lot = get_data_from_db($lot_sql, $db_connect, FALSE);
 
+// Проверяем что лот есть в БД
+if (empty($lot['id'])) {
+    // Формируем 404 заголовок.
+    header("HTTP/1.x 404 Not Found");
+
+    // Окончаем выволнение сценария.
+    die();
+}
+
 // Если по лоту есть ставка цена = макс ставка.
 if (isset($lot['bet'])) {
     $lot['price'] = $lot['bet'];
 }
 
+// Считаем минимальную ставку.
 $lot['next_bet'] = $lot['price'] + $lot['bet_step'];
 
+// Проверяем показывать или нет форму добавления ставки
 $bit_form_toggle = FALSE;
 if (strtotime($lot['finish_date']) > time() && $is_auth) {
     $bit_form_toggle = TRUE;
