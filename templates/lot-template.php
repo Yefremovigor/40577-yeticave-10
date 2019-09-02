@@ -1,44 +1,36 @@
 <?php require_once('menu.php') ?>
 <?=var_dump($lot) ?>
 <section class="lot-item container">
-    <h2><?=$lot['title'] ?></h2>
+    <h2><?=htmlspecialchars($lot['title'], ENT_QUOTES) ?></h2>
     <div class="lot-item__content">
         <div class="lot-item__left">
             <div class="lot-item__image">
-                <img src="../img/lot-image.jpg" width="730" height="548" alt="Сноуборд">
+                <img src="../<?=$lot['img'] ?>" width="730" height="548" alt="<?=$lot['title'] ?>">
             </div>
-            <p class="lot-item__category">Категория: <span>Доски и лыжи</span></p>
+            <p class="lot-item__category">Категория: <span><?=$lot['category'] ?></span></p>
             <p class="lot-item__description">
-                Легкий маневренный сноуборд, готовый дать жару в любом парке, растопив
-                снег
-                мощным щелчкоми четкими дугами. Стекловолокно Bi-Ax, уложенное в двух направлениях, наделяет этот
-                снаряд
-                отличной гибкостью и отзывчивостью, а симметричная геометрия в сочетании с классическим прогибом
-                кэмбер
-                позволит уверенно держать высокие скорости. А если к концу катального дня сил совсем не останется,
-                просто
-                посмотрите на Вашу доску и улыбнитесь, крутая графика от Шона Кливера еще никого не оставляла
-                равнодушным.
+                <?=htmlspecialchars($lot['description'], ENT_QUOTES) ?>
             </p>
         </div>
         <div class="lot-item__right">
             <div class="lot-item__state">
-                <div class="lot-item__timer timer">
-                    10:54
+                <?php $lot_timer = get_dt_range($lot['finish_date']) ?>
+                <div class="lot-item__timer timer <?=is_ad_finishing($lot_timer['hour']) ?>">
+                    <?=$lot_timer['hour'].':'.$lot_timer['minute'] ?>
                 </div>
                 <div class="lot-item__cost-state">
                     <div class="lot-item__rate">
                         <span class="lot-item__amount">Текущая цена</span>
-                        <span class="lot-item__cost">10 999</span>
+                        <span class="lot-item__cost"><?=set_price_format($lot['price'], FALSE) ?></span>
                     </div>
                     <div class="lot-item__min-cost">
-                        Мин. ставка <span>12 000 р</span>
+                        Мин. ставка <span><?=set_price_format($lot['next_bet']) ?></span>
                     </div>
                 </div>
                 <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post" autocomplete="off">
                     <p class="lot-item__form-item form__item form__item--invalid">
                         <label for="cost">Ваша ставка</label>
-                        <input id="cost" type="text" name="cost" placeholder="12 000">
+                        <input id="cost" type="text" name="cost" placeholder="<?=set_price_format($lot['next_bet'], FALSE) ?>">
                         <span class="form__error">Введите наименование лота</span>
                     </p>
                     <button type="submit" class="button">Сделать ставку</button>

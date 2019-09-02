@@ -26,11 +26,28 @@ $categories_sql = 'SELECT * FROM categories';
 // Выполняем запрос и конвертируем данные в двумерный массив.
 $categories = get_data_from_db($categories_sql, $db_connect);
 
+// Извлекаем id лота из GET-параметра.
+$lot_id = $_GET['lot_id'];
+
 // Собираем запрос на получение лота по id.
-$lot_sql = 'SELECT * FROM lots JOIN categories ON lots.category_id = categories.id WHERE lots.id = 2';
+$lot_sql = 'SELECT lots.title, lots.start_price AS price, lots.img, '
+    . 'categories.name AS category, lots.description, lots.finish_date, '
+    . 'lots.bet_step, MAX(bets.bet) AS bet '
+    . 'FROM lots '
+    . 'JOIN categories ON lots.category_id = categories.id '
+    . 'JOIN bets ON lots.id = bets.lot_id '
+    . 'WHERE lots.id = ' . $lot_id;
 
 // Выполняем запрос и конвертируем данные в двумерный массив.
 $lot = get_data_from_db($lot_sql, $db_connect, FALSE);
+
+// Если по лоту есть ставка цена = макс ставка.
+if (isset($lot['bet'])) {
+    $lot['price'] = $lot['bet'];
+}
+
+$lot['next_bet'] = $lot['price'] + $lot['bet_step'];
+
 
 $content = include_template('lot-template.php', [
     'categories' => $categories,
