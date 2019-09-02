@@ -1,7 +1,7 @@
 <?php require_once('menu.php') ?>
 <?=var_dump($lot) ?>
 <section class="lot-item container">
-    <h2><?=$lot['0']['title'] ?></h2>
+    <h2><?=$lot['title'] ?></h2>
     <div class="lot-item__content">
         <div class="lot-item__left">
             <div class="lot-item__image">

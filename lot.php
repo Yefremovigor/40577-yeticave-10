@@ -30,7 +30,7 @@ $categories = get_data_from_db($categories_sql, $db_connect);
 $lot_sql = 'SELECT * FROM lots JOIN categories ON lots.category_id = categories.id WHERE lots.id = 2';
 
 // Выполняем запрос и конвертируем данные в двумерный массив.
-$lot = get_data_from_db($lot_sql, $db_connect);
+$lot = get_data_from_db($lot_sql, $db_connect, FALSE);
 
 $content = include_template('lot-template.php', [
     'categories' => $categories,
