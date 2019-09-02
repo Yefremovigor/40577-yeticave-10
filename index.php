@@ -17,13 +17,13 @@ $ads_sql = 'SELECT lots.title, categories.name AS category, lots.start_price AS 
     . 'JOIN categories ON lots.category_id = categories.id';
 
 // Выполняем запрос и конвертируем данные в двумерный массив.
-$ads = get_data_frob_db($ads_sql, $db_connect);
+$ads = get_data_from_db($ads_sql, $db_connect);
 
 // Собираем запрос для получения саиска категорий.
 $categories_sql = 'SELECT * FROM categories';
 
 // Выполняем запрос и конвертируем данные в двумерный массив.
-$categories = get_data_frob_db($categories_sql, $db_connect);;
+$categories = get_data_from_db($categories_sql, $db_connect);;
 
 $content = include_template('main.php', [
     'categories' => $categories,

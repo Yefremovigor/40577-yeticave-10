@@ -24,10 +24,17 @@ if (empty($_GET['lot_id'])) {
 $categories_sql = 'SELECT * FROM categories';
 
 // Выполняем запрос и конвертируем данные в двумерный массив.
-$categories = get_data_frob_db($categories_sql, $db_connect);
+$categories = get_data_from_db($categories_sql, $db_connect);
+
+// Собираем запрос на получение лота по id.
+$lot_sql = 'SELECT * FROM lots JOIN categories ON lots.category_id = categories.id WHERE lots.id = 2';
+
+// Выполняем запрос и конвертируем данные в двумерный массив.
+$lot = get_data_from_db($lot_sql, $db_connect);
 
 $content = include_template('lot-template.php', [
-    'categories' => $categories
+    'categories' => $categories,
+    'lot' => $lot
 ]);
 
 $layout = include_template('layout.php', [
