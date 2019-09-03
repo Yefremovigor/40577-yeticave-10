@@ -1,7 +1,10 @@
 <?php
-function set_price_format($input) {
+function set_price_format($input, $show_currency = TRUE) {
     $price = ceil($input);
-    $price = number_format($price, 0, '.', ' ') . ' ₽';
+    $price = number_format($price, 0, '.', ' ');
+    if ($show_currency) {
+        $price .= ' ₽';
+    }
     return $price;
 }
 
@@ -22,4 +25,14 @@ function is_ad_finishing($hours_to_finishing) {
         $set_class = 'timer--finishing';
     }
     return $set_class;
+}
+
+function get_data_from_db($query, $connect, $is_multidimensional = TRUE) {
+    $response = mysqli_query($connect, $query);
+    if (!$response) {
+        die('Ошибка в sql запросе: ' . mysqli_error($connect));
+    }
+    $converted_array = $is_multidimensional ? mysqli_fetch_all($response, MYSQLI_ASSOC) : mysqli_fetch_assoc($response);
+
+    return $converted_array;
 }
