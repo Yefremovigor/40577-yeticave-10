@@ -17,6 +17,12 @@ $categories_sql = 'SELECT * FROM categories';
 // Выполняем запрос и конвертируем данные в двумерный массив.
 $categories = get_data_from_db($categories_sql, $db_connect);
 
+// Проверяем отправлена ли форма (запрошана ли страница через метот POST).
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Записываем переданные данные.
+    $new_lot= $_POST;
+}
+
 $content = include_template('add-template.php', [
     'categories' => $categories
 ]);
