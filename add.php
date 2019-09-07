@@ -24,6 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Определяем список обязательных полей.
     $required = ['lot-name', 'category', 'message', 'lot-rate', 'lot-step', 'lot-date'];
+
+    // Создаем пустой массив для записи ошибок в заполнении формы.
+    $errors = [];
 }
 
 $content = include_template('add-template.php', [
