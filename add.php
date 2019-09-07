@@ -34,6 +34,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } elseif (is_length_invalid($new_lot['lot-name'], 10, 64)) {
         $errors['lot-name'] = 'Название лота должно быть длинной от 10 до 64 символов';
     }
+
+    // Проверяем заплнение описания нового лота.
+    if (empty($new_lot['message'])) {
+        $errors['message'] = 'Заполните описание лота';
+    }
+
+    // Проверяем заплнение стартовой цены нового лота.
+    if (empty($new_lot['lot-rate'])) {
+        $errors['lot-rate'] = 'Укажите начвльную цену лота';
+    } elseif (intval($lot['lot-rate']) <= 0) {
+        $errors['lot-rate'] = 'Цену лота должна быть целым числом больше нуля';
+    }
+
+    // Проверяем заплнение шага ставки нового лота.
+    if (empty($new_lot['lot-step'])) {
+        $errors['lot-step'] = 'Укажите начвльную цену лота';
+    } elseif (intval($lot['lot-step']) <= 0) {
+        $errors['lot-step'] = 'Шаг ставки быть целым числом больше нуля';
+    }
+
 }
 
 $content = include_template('add-template.php', [
