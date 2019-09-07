@@ -40,3 +40,13 @@ function get_data_from_db($query, $connect, $is_multidimensional = TRUE) {
 function getPostVal($name) {
     return $_POST[$name] ?? '';
 }
+
+function is_length_invalid($value, $min, $max) {
+    $len = strlen($value);
+    $result = FALSE;
+    if ($len < $min or $len > $max) {
+        $result = TRUE;
+    }
+
+    return $result;
+}
