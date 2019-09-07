@@ -27,6 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Создаем пустой массив для записи ошибок в заполнении формы.
     $errors = [];
+
+    // Проверяем заплнение названия нового лота.
+    if (empty($new_lot['lot-name'])) {
+        $errors['lot-name'] = 'Заполните название лота';
+    } elseif (is_length_invalid($new_lot['lot-name'], 10, 64)) {
+        $errors['lot-name'] = 'Название лота должно быть длинной от 10 до 64 символов';
+    }
 }
 
 $content = include_template('add-template.php', [
