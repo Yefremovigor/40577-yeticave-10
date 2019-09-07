@@ -21,6 +21,9 @@ $categories = get_data_from_db($categories_sql, $db_connect);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Записываем переданные данные.
     $new_lot= $_POST;
+
+    // Определяем список обязательных полей.
+    $required = ['lot-name', 'category', 'message', 'lot-rate', 'lot-step', 'lot-date'];
 }
 
 $content = include_template('add-template.php', [
