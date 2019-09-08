@@ -35,6 +35,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['lot-name'] = 'Название лота должно быть длинной от 10 до 64 символов';
     }
 
+    // Проверяем заплнение категориии нового лота.
+    if (empty($new_lot['category'])) {
+        $errors['category'] = 'Выберите категорию лота';
+    } else {
+        // Приваодим переданый id категории к числу.
+        $selected_category = intval($new_lot['category']);
+        // Создаем запрос пдля проверки наличия выбранного id категории в БД.
+        $category_check_sql = 'SELECT id FROM categories WHERE id = ' . $selected_category;
+        // Выполняем запрос.
+        $category_check = count_rows_in_db($category_check_sql, $db_connect);
+        // Записываем ошибку в массив, если category_check содержит 0.
+        if (!$category_check) {
+            $errors['category'] = 'Выберите категорию из списка';
+        }
+    }
+
     // Проверяем заплнение описания нового лота.
     if (empty($new_lot['message'])) {
         $errors['message'] = 'Заполните описание лота';
