@@ -50,3 +50,13 @@ function is_length_invalid($value, $min, $max) {
 
     return $result;
 }
+
+function count_rows_in_db($query, $connect) {
+    $response = mysqli_query($connect, $query);
+    if (!$response) {
+        die('Ошибка в sql запросе: ' . mysqli_error($connect));
+    }
+    $count_rows = mysqli_num_rows($response);
+
+    return $count_rows;
+}
