@@ -56,6 +56,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['message'] = 'Заполните описание лота';
     }
 
+    // проверяем загруженый файл.
+    if (isset($_FILES['lot-img'])) {
+        // Сохраняем временное имя файла.
+        $file_name = $_FILES['lot-img']['tmp_name'];
+
+        // Получаем информацию о типе файла.
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $file_type = finfo_file($finfo, $file_name);
+
+
+
+    } else {
+        $errors['lot-img'] = 'Загрузите фотографию лота в формате .jpg, .jpeg или .png';
+    }
+
     // Проверяем заплнение стартовой цены нового лота.
     if (empty($new_lot['lot-rate'])) {
         $errors['lot-rate'] = 'Укажите начвльную цену лота';

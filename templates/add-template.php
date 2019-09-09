@@ -27,7 +27,7 @@
     <div class="form__item form__item--file">
         <label>Изображение <sup>*</sup></label>
         <div class="form__input-file">
-            <input class="visually-hidden" type="file" id="lot-img" value="">
+            <input class="visually-hidden" type="file" name="lot-img" id="lot-img" value="">
             <label for="lot-img">
                 Добавить
             </label>
