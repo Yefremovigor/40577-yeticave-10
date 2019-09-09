@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // проверяем загруженый файл.
-    if (isset($_FILES['lot-img'])) {
+    if (!empty($_FILES['lot-img']['name'])) {
         // Сохраняем временное имя файла.
         $file_name = $_FILES['lot-img']['tmp_name'];
 
