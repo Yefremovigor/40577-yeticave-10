@@ -65,12 +65,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_type = finfo_file($finfo, $file_name);
 
-        // Сравниваем тип файлас допустимым
+        // Сравниваем тип файла с допустимым.
         if ($file_type !== 'image/jpeg' AND $file_type !== 'image/png') {
             $errors['lot-img'] = 'Загрузите фотографию лота в формате .jpg, .jpeg или .png';
-
         }
 
+        // Проверяем размер файла.
+        $file_size = $_FILES['lot-img']['size'];
+        if ($file_size > 2000000) {
+            $errors['lot-img'] = 'Фотография должна весить не больше 2Мб.';
+        }
     }
 
     // Проверяем заплнение стартовой цены нового лота.
