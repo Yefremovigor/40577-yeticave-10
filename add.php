@@ -65,10 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_type = finfo_file($finfo, $file_name);
 
+        // Сравниваем тип файлас допустимым
+        if ($file_type !== 'image/jpeg' AND $file_type !== 'image/png') {
+            $errors['lot-img'] = 'Загрузите фотографию лота в формате .jpg, .jpeg или .png';
 
+        }
 
-    } else {
-        $errors['lot-img'] = 'Загрузите фотографию лота в формате .jpg, .jpeg или .png';
     }
 
     // Проверяем заплнение стартовой цены нового лота.
