@@ -93,6 +93,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['lot-step'] = 'Шаг ставки быть целым числом больше нуля';
     }
 
+    // Проверяем дату окончания торгов.
+    if (empty($new_lot['lot-date'])) {
+        $errors['lot-date'] = 'Укажите дату окончания торгов';
+    } elseif (!is_date_valid($new_lot['lot-date'])) {
+        $errors['lot-date'] = 'Введите дату в формате ГГГГ-ММ-ДД';
+    } elseif (strtotime($new_lot['lot-date']) < strtotime('tomorrow')) {
+        $errors['lot-date'] = 'Дата окончания торгов не может раньше чем '
+        . date('Y-m-d', time('tomorrow') + 86400);
+    }
 }
 
 $content = include_template('add-template.php', [
