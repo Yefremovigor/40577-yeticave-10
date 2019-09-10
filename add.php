@@ -102,11 +102,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['lot-date'] = 'Дата окончания торгов не может раньше чем '
         . date('Y-m-d', time('tomorrow') + 86400);
     }
+
+    // Проверяем есть ли ошибки в массиве $errors.
+    if (count($errors)) {
+        // Если есть подключаем габлон и передаем туда список ошибок и меню.
+        $content = include_template('add-template.php', [
+            'categories' => $categories,
+            'errors' => $errors
+        ]);
+    }
+
+} else {
+    // Если форма не отправлена показываем пустую форму.
+    $content = include_template('add-template.php', [
+        'categories' => $categories
+    ]);
 }
 
-$content = include_template('add-template.php', [
-    'categories' => $categories
-]);
+
 
 $layout = include_template('layout.php', [
     'title' => 'Yeti Cave | Название_товара',
