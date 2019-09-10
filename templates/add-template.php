@@ -49,6 +49,15 @@
             <span class="form__error">Введите дату завершения торгов</span>
         </div>
     </div>
-    <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
+    <span class="form__error form__error--bottom">
+        Пожалуйста, исправьте ошибки в форме:
+        <?php if (isset($errors)): ?>
+            <ul>
+                <?php foreach ($errors as $error):?>
+                    <li><?=$error?></li>
+                <?php endforeach;?>
+            </ul>
+        <?php endif ?>
+    </span>
     <button type="submit" class="button">Добавить лот</button>
 </form>
