@@ -10,8 +10,9 @@
         <div class="form__item <?=(isset($errors['category'])) ? 'form__item--invalid' : '' ?>">
             <label for="category">Категория <sup>*</sup></label>
             <select id="category" name="category">
+                <?=(!$_POST['category'] || isset($errors['category'])) ? '<option selected>Выберите категорию</option>' : '' ?>
                 <?php foreach ($categories as $category): ?>
-                    <option value="<?=$category['id'] ?>"><?=$category['name'] ?></option>
+                    <option value="<?=$category['id'] ?>" <?=(isset($_POST['category']) && $category['id'] == intval($_POST['category'])) ? 'selected' : '' ?> > <?=$category['name'] ?></option>
                 <?php endforeach ?>
             </select>
             <span class="form__error">Выберите категорию</span>
