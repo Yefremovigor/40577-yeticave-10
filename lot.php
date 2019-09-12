@@ -26,8 +26,8 @@ $categories_sql = 'SELECT * FROM categories';
 // Выполняем запрос и конвертируем данные в двумерный массив.
 $categories = get_data_from_db($categories_sql, $db_connect);
 
-// Извлекаем id лота из GET-параметра.
-$lot_id = $_GET['lot_id'];
+// Извлекаем id лота из GET-параметра и приводим его к числу для защиты.
+$lot_id = intval($_GET['lot_id']);
 
 // Собираем запрос на получение лота по id.
 $lot_sql = 'SELECT lots.id, lots.title, lots.start_price AS price, lots.img, '
