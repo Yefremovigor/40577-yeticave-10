@@ -20,7 +20,7 @@ $categories = get_data_from_db($categories_sql, $db_connect);
 // Проверяем отправлена ли форма (запрошана ли страница через метот POST).
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Записываем переданные данные.
-    $new_lot= $_POST;
+    $new_lot = $_POST;
 
     // Определяем список обязательных полей.
     $required = ['lot-name', 'category', 'message', 'lot-rate', 'lot-step', 'lot-date'];
@@ -82,14 +82,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Проверяем заплнение стартовой цены нового лота.
     if (empty($new_lot['lot-rate'])) {
         $errors['lot-rate'] = 'Укажите начвльную цену лота';
-    } elseif (intval($lot['lot-rate']) <= 0) {
+    } elseif (intval($new_lot['lot-rate']) <= 0) {
         $errors['lot-rate'] = 'Цену лота должна быть целым числом больше нуля';
     }
 
     // Проверяем заплнение шага ставки нового лота.
     if (empty($new_lot['lot-step'])) {
         $errors['lot-step'] = 'Укажите начвльную цену лота';
-    } elseif (intval($lot['lot-step']) <= 0) {
+    } elseif (intval($new_lot['lot-step']) <= 0) {
         $errors['lot-step'] = 'Шаг ставки быть целым числом больше нуля';
     }
 
@@ -110,6 +110,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'categories' => $categories,
             'errors' => $errors
         ]);
+    } else {
+        // Создаем новое имя файла.
+        $img_name = ($file_type == 'image/jpeg') ? uniqid() . '.jpeg' : uniqid() . '.png';
+        // Перемещаем файл в папку uploads.
+        move_uploaded_file($_FILES['lot-img']['tmp_name'], 'uploads/' . $img_name);
+
+        // Собираем sql запрос на добавление лота.
+        $add_lot_sql = 'INSERT INTO lots SET'
+        . ' title = "' . mysqli_real_escape_string($db_connect, $new_lot['lot-name']) . '"'
+        . ', description = "' . mysqli_real_escape_string($db_connect, $new_lot['message']) . '"'
+        . ', img = "uploads/' . $img_name . '"'
+        . ', start_price = "' . intval($new_lot['lot-rate']) . '"'
+        . ', finish_date = "' . mysqli_real_escape_string($db_connect, $new_lot['lot-date']) . '"'
+        . ', bet_step = "' . intval($new_lot['lot-step']) . '"'
+        . ', category_id = "' . intval($new_lot['category']) . '"'
+        . ', author_id = "1"';
+
+        // Выполняем запрос.
+        $add_lot = mysqli_query($db_connect, $add_lot_sql);
+
+        // Получаем id добавленого лота.
+        $nwe_lot_id = mysqli_insert_id($db_connect);
+
+        // Перенаправляем пользователя на добавленный лот.
+        header('Location: lot.php?lot_id='.$nwe_lot_id);
+        exit();
     }
 
 } else {
