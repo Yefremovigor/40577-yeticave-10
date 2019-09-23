@@ -25,6 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Создаем пустой массив для записи ошибок в заполнении формы.
     $errors = [];
 
+    // Проверяем поле email.
+    if (empty($new_user['email'])) {
+        $errors['email'] = 'Введите e-mail';
+    } elseif (!filter_var($new_user['email'], FILTER_VALIDATE_EMAIL)) {
+        $errors['lot-name'] = 'В введенном e-mail ошибка';
+    }
+
     // Проверяем есть ли ошибки в массиве $errors.
     if (count($errors)) {
         // Если есть подключаем габлон и передаем туда список ошибок и меню.
