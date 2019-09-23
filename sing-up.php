@@ -17,9 +17,28 @@ $categories_sql = 'SELECT * FROM categories';
 // Выполняем запрос и конвертируем данные в двумерный массив.
 $categories = get_data_from_db($categories_sql, $db_connect);
 
-$content = include_template('sing-up-template.php', [
-    'categories' => $categories
-]);
+// Проверяем отправлена ли форма (запрошана ли страница через метот POST).
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Записываем переданные данные.
+    $new_user = $_POST;
+
+    // Создаем пустой массив для записи ошибок в заполнении формы.
+    $errors = [];
+
+    // Проверяем есть ли ошибки в массиве $errors.
+    if (count($errors)) {
+        die('Все ок!');
+    } else {
+        exit('Все ок!');
+    }
+} else {
+    // Если форма не отправлена показываем пустую форму.
+    $content = include_template('sing-up-template.php', [
+        'categories' => $categories
+    ]);
+}
+
+
 
 $layout = include_template('layout.php', [
     'title' => 'Yeti Cave | Название_товара',
