@@ -29,7 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($new_user['email'])) {
         $errors['email'] = 'Введите e-mail';
     } elseif (!filter_var($new_user['email'], FILTER_VALIDATE_EMAIL)) {
-        $errors['lot-name'] = 'В введенном e-mail ошибка';
+        $errors['email'] = 'В введенном e-mail ошибка';
+    }
+
+    // Проверям пароль.
+    if (empty($new_user['password'])) {
+        $errors['password'] = 'Введите пароль';
     }
 
     // Проверяем есть ли ошибки в массиве $errors.
