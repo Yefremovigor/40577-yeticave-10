@@ -1,5 +1,5 @@
 <?php require_once('menu.php') ?>
-<form class="form container form--invalid" action="https://echo.htmlacademy.ru" method="post" autocomplete="off">
+<form class="form container form--invalid" action="sing-up.php" method="post" autocomplete="off">
     <h2>Регистрация нового аккаунта</h2>
     <div class="form__item"> <!-- form__item--invalid -->
         <label for="email">E-mail <sup>*</sup></label>
