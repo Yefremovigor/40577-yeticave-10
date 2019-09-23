@@ -21,7 +21,16 @@
         <textarea id="message" name="message" placeholder="Напишите как с вами связаться"><?=getPostVal('message') ?></textarea>
         <span class="form__error">Напишите как с вами связаться</span>
     </div>
-    <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
+    <span class="form__error form__error--bottom">
+        Пожалуйста, исправьте ошибки в форме:
+        <?php if (isset($errors)): ?>
+            <ul>
+                <?php foreach ($errors as $error):?>
+                    <li><?=$error?></li>
+                <?php endforeach;?>
+            </ul>
+        <?php endif ?>
+    </span>
     <button type="submit" class="button">Зарегистрироваться</button>
     <a class="text-link" href="#">Уже есть аккаунт</a>
 </form>
