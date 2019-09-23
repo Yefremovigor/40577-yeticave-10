@@ -37,6 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['password'] = 'Введите пароль';
     }
 
+    // Проверям имя.
+    if (empty($new_user['name'])) {
+        $errors['name'] = 'Введите имя';
+    }
+
     // Проверяем есть ли ошибки в массиве $errors.
     if (count($errors)) {
         // Если есть подключаем габлон и передаем туда список ошибок и меню.
