@@ -27,7 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Проверяем есть ли ошибки в массиве $errors.
     if (count($errors)) {
-        die('Все ок!');
+        // Если есть подключаем габлон и передаем туда список ошибок и меню.
+        $content = include_template('sing-up-template.php', [
+            'categories' => $categories,
+            'errors' => $errors
+        ]);
     } else {
         exit('Все ок!');
     }
