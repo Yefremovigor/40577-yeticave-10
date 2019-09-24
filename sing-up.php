@@ -30,6 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['email'] = 'Введите e-mail';
     } elseif (!filter_var($new_user['email'], FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'В введенном e-mail ошибка';
+    } else {
+        // Собираем запрос на проверку почты в базе.
+        $email_check_sql = 'SELECT email FROM users WHERE email = "'
+        . mysqli_real_escape_string($db_connect, $new_user['email']) . '"';
+
+        // Выполняем запрос.
+        $email_check = count_rows_in_db($email_check_sql, $db_connect);
+
+        // Запишем ошибку в $errors если email есть в БД.
+        if ($email_check) {
+            $errors['email'] = 'Пользователь с таким e-mail уже зарегистрирован';
+        }
     }
 
     // Проверям пароль.
