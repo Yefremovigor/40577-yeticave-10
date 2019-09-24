@@ -67,7 +67,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'errors' => $errors
         ]);
     } else {
-        exit('Все ок!');
+        // Формируем запрос на добавление нового пользователя.
+        $new_user_sql = 'INSERT INTO users SET'
+        . ' email = "' . mysqli_real_escape_string($db_connect, $new_user['email']) . '"'
+        . ', name = "' . mysqli_real_escape_string($db_connect, $new_user['name']) . '"'
+        . ', password = "' . password_hash($new_user['password'], PASSWORD_DEFAULT) . '"'
+        . ', contacts = "' . mysqli_real_escape_string($db_connect, $new_user['message']) . '"';
+
+        // Выполняем запрос на добавление.
+        $add_new_user = mysqli_query($db_connect, $new_user_sql);
+        if (!$add_new_user) {
+            die('Ошибка в sql запросе: ' . mysqli_error($db_connect));
+        }
+
+        // Перенаправляем человека на страницу входа.
+        header('Location: login.php');
+        exit();
     }
 } else {
     // Если форма не отправлена показываем пустую форму.
