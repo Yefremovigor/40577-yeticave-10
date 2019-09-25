@@ -1,15 +1,5 @@
 <?php
-// Проверямем авторизацию.
-$is_auth = rand(0, 1);
-$user_name = 'Игорь';
-
-// Подключаем базу данных.
-require_once('db.php');
-// Поподключаем функции.
-require_once('helpers.php');
-require_once('functions.php');
-// Задаем часовой пояс
-date_default_timezone_set('Europe/Moscow');
+require_once('init.php');
 
 // Собираем запрос для получения саиска категорий.
 $categories_sql = 'SELECT * FROM categories';
@@ -125,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         . ', finish_date = "' . mysqli_real_escape_string($db_connect, $new_lot['lot-date']) . '"'
         . ', bet_step = "' . intval($new_lot['lot-step']) . '"'
         . ', category_id = "' . intval($new_lot['category']) . '"'
-        . ', author_id = "1"';
+        . ', author_id = "' . $_SESSION['user']['id'] . '"';
 
         // Выполняем запрос.
         $add_lot = mysqli_query($db_connect, $add_lot_sql);
@@ -143,6 +133,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $content = include_template('add-template.php', [
         'categories' => $categories
     ]);
+
+    // Если пользователь неавторизован, то выдаем ему 403 код.
+    if (empty($_SESSION['user'])) {
+        header("HTTP/1.x 403 Forbidden");
+        exit();
+    }
 }
 
 

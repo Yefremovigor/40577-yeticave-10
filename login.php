@@ -9,74 +9,57 @@ $categories = get_data_from_db($categories_sql, $db_connect);
 
 // Проверяем отправлена ли форма (запрошана ли страница через метот POST).
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Записываем переданные данные.
-    $new_user = $_POST;
+    $user_login = $_POST;
 
     // Создаем пустой массив для записи ошибок в заполнении формы.
     $errors = [];
 
     // Проверяем поле email.
-    if (empty($new_user['email'])) {
+    if (empty($user_login['email'])) {
         $errors['email'] = 'Введите e-mail';
-    } elseif (!filter_var($new_user['email'], FILTER_VALIDATE_EMAIL)) {
+    } elseif (!filter_var($user_login['email'], FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'В введенном e-mail ошибка';
     } else {
         // Собираем запрос на проверку почты в базе.
-        $email_check_sql = 'SELECT email FROM users WHERE email = "'
-        . mysqli_real_escape_string($db_connect, $new_user['email']) . '"';
+        $email_check_sql = 'SELECT * FROM users WHERE email = "'
+        . mysqli_real_escape_string($db_connect, $user_login['email']) . '"';
 
         // Выполняем запрос.
-        $email_check = count_rows_in_db($email_check_sql, $db_connect);
+        $user = get_data_from_db($email_check_sql, $db_connect, FALSE);
 
         // Запишем ошибку в $errors если email есть в БД.
-        if ($email_check) {
-            $errors['email'] = 'Пользователь с таким e-mail уже зарегистрирован';
+        if (empty($user['id'])) {
+            $errors['email'] = 'Пользователь с таким e-mail не зарегистрирован';
         }
     }
 
-    // Проверям пароль.
-    if (empty($new_user['password'])) {
+    // Проверям указан ли пароль.
+    if (empty($user_login['password'])) {
         $errors['password'] = 'Введите пароль';
     }
 
-    // Проверям имя.
-    if (empty($new_user['name'])) {
-        $errors['name'] = 'Введите имя';
+    if (isset($user['id']) AND !empty($user_login['password'])) {
+        if (password_verify($user_login['password'], $user['password'])) {
+            $_SESSION['user'] = $user;
+        } else {
+            $errors['password'] = 'Вы ввели неверный пароль';
+        }
     }
 
-    // Проверям имя.
-    if (empty($new_user['message'])) {
-        $errors['message'] = 'Введите контактные двнные';
-    }
-
-    // Проверяем есть ли ошибки в массиве $errors.
     if (count($errors)) {
         // Если есть подключаем габлон и передаем туда список ошибок и меню.
-        $content = include_template('sing-up-template.php', [
+        $content = include_template('login-template.php', [
             'categories' => $categories,
             'errors' => $errors
         ]);
     } else {
-        // Формируем запрос на добавление нового пользователя.
-        $new_user_sql = 'INSERT INTO users SET'
-        . ' email = "' . mysqli_real_escape_string($db_connect, $new_user['email']) . '"'
-        . ', name = "' . mysqli_real_escape_string($db_connect, $new_user['name']) . '"'
-        . ', password = "' . password_hash($new_user['password'], PASSWORD_DEFAULT) . '"'
-        . ', contacts = "' . mysqli_real_escape_string($db_connect, $new_user['message']) . '"';
-
-        // Выполняем запрос на добавление.
-        $add_new_user = mysqli_query($db_connect, $new_user_sql);
-        if (!$add_new_user) {
-            die('Ошибка в sql запросе: ' . mysqli_error($db_connect));
-        }
-
-        // Перенаправляем человека на страницу входа.
-        header('Location: login.php');
+        header("Location: /index.php");
         exit();
     }
+
 } else {
     // Если форма не отправлена показываем пустую форму.
-    $content = include_template('sing-up-template.php', [
+    $content = include_template('login-template.php', [
         'categories' => $categories
     ]);
 
@@ -86,8 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 }
-
-
 
 $layout = include_template('layout.php', [
     'title' => 'Yeti Cave | Название_товара',
