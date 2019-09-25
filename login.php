@@ -1,7 +1,7 @@
 <?php
-// Проверямем авторизацию.
-$is_auth = rand(0, 1);
-$user_name = 'Игорь';
+session_start();
+$is_auth = (isset($_SESSION['user'])) ? 1 : 0;
+$user_name = (isset($_SESSION['user'])) ? $_SESSION['user']['name'] : '';
 
 // Подключаем базу данных.
 require_once('db.php');
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($user['id']) AND !empty($user_login['password'])) {
         if (password_verify($user_login['password'], $user['password'])) {
-            exit('Все ок!');
+            $_SESSION['user'] = $user;
         } else {
             $errors['password'] = 'Вы ввели неверный пароль';
         }
@@ -62,6 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'categories' => $categories,
             'errors' => $errors
         ]);
+    } else {
+        header("Location: /index.php");
+        exit();
     }
 
 } else {
@@ -69,6 +72,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $content = include_template('login-template.php', [
         'categories' => $categories
     ]);
+
+    // Если пользователь авторизован, то перенаправляем его на главную.
+    if (isset($_SESSION['user'])) {
+        header("Location: /index.php");
+        exit();
+    }
 }
 
 $layout = include_template('layout.php', [
