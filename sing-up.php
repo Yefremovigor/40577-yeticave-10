@@ -79,6 +79,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $content = include_template('sing-up-template.php', [
         'categories' => $categories
     ]);
+
+    // Если пользователь авторизован, то перенаправляем его на главную.
+    if (isset($_SESSION['user'])) {
+        header("Location: /index.php");
+        exit();
+    }
 }
 
 
