@@ -143,6 +143,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $content = include_template('add-template.php', [
         'categories' => $categories
     ]);
+
+    // Если пользователь неавторизован, то выдаем ему 403 код.
+    if (empty($_SESSION['user'])) {
+        header("HTTP/1.x 403 Forbidden");
+        exit();
+    }
 }
 
 
