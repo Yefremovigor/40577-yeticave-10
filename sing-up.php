@@ -1,15 +1,5 @@
 <?php
-// Проверямем авторизацию.
-$is_auth = rand(0, 1);
-$user_name = 'Игорь';
-
-// Подключаем базу данных.
-require_once('db.php');
-// Поподключаем функции.
-require_once('helpers.php');
-require_once('functions.php');
-// Задаем часовой пояс
-date_default_timezone_set('Europe/Moscow');
+require_once('init.php');
 
 // Собираем запрос для получения саиска категорий.
 $categories_sql = 'SELECT * FROM categories';
