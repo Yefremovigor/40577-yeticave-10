@@ -9,7 +9,7 @@
     <div class="form__item form__item--last <?=(isset($errors['password'])) ? 'form__item--invalid' : '' ?>">
         <label for="password">Пароль <sup>*</sup></label>
         <input id="password" type="password" name="password" placeholder="Введите пароль">
-        <span class="form__error">Введите пароль</span>
+        <span class="form__error"><?=(isset($errors['password'])) ? $errors['password'] : '' ?></span>
     </div>
     <button type="submit" class="button">Войти</button>
 </form>

@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['password'] = 'Введите пароль';
     }
 
-    if (isset($user['id']) AND isset($user_login['password'])) {
+    if (isset($user['id']) AND !empty($user_login['password'])) {
         if (password_verify($user_login['password'], $user['password'])) {
             exit('Все ок!');
         } else {
