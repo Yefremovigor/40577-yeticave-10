@@ -13,7 +13,7 @@ $ads = get_data_from_db($ads_sql, $db_connect);
 $categories_sql = 'SELECT * FROM categories';
 
 // Выполняем запрос и конвертируем данные в двумерный массив.
-$categories = get_data_from_db($categories_sql, $db_connect);;
+$categories = get_data_from_db($categories_sql, $db_connect);
 
 $content = include_template('main.php', [
     'categories' => $categories,

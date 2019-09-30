@@ -16,11 +16,11 @@
             <a class="main-header__logo">
                 <img src="../img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
             </a>
-            <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru" autocomplete="off">
-                <input type="search" name="search" placeholder="Поиск лота">
+            <form class="main-header__search" method="get" action="search.php" autocomplete="off">
+                <input type="search" name="search" placeholder="Поиск лота" value="<?=htmlspecialchars($_GET['search'], ENT_QUOTES) ?? '' ?>">
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
-            <a class="main-header__add-lot button" href="pages/add-lot.html">Добавить лот</a>
+            <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
 
             <nav class="user-menu">
                 <?php if ($is_auth === 1): ?>

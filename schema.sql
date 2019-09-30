@@ -47,3 +47,5 @@ CREATE INDEX author_id ON lots(author_id);
 CREATE INDEX category_id ON lots(category_id);
 CREATE INDEX user_id ON bets(user_id);
 CREATE INDEX lot_id ON bets(lot_id);
+
+CREATE FULLTEXT INDEX lots_ft_search ON lots(title, description);
