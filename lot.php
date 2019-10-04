@@ -22,7 +22,7 @@ $lot_id = intval($_GET['lot_id']);
 // Собираем запрос на получение лота по id.
 $lot_sql = 'SELECT lots.id, lots.title, lots.start_price AS price, lots.img, '
     . 'categories.name AS category, lots.description, lots.finish_date, '
-    . 'lots.bet_step, MAX(bets.bet) AS bet '
+    . 'lots.bet_step, lots.author_id, MAX(bets.bet) AS bet '
     . 'FROM lots '
     . 'JOIN categories ON lots.category_id = categories.id '
     . 'JOIN bets ON lots.id = bets.lot_id '
@@ -50,7 +50,7 @@ $lot['next_bet'] = $lot['price'] + $lot['bet_step'];
 
 // Проверяем показывать или нет форму добавления ставки
 $bit_form_toggle = FALSE;
-if (strtotime($lot['finish_date']) > time() && $is_auth) {
+if (strtotime($lot['finish_date']) > time() AND $is_auth AND $lot['author_id'] != $_SESSION['user']['id']) {
     $bit_form_toggle = TRUE;
 }
 
