@@ -14,7 +14,7 @@ $search = $_GET['search'] ?? '';
 if ($_SERVER['REQUEST_METHOD'] == 'GET' AND !empty($search)) {
     // Формируем запрос на колличество совпадений в БД.
     $search_count_sql = 'SELECT id FROM lots WHERE MATCH(title,description) AGAINST("'
-    . mysqli_real_escape_string($db_connect, trim($search)) . '")';
+    . mysqli_real_escape_string($db_connect, trim($search)) . '") AND lots.finish_date > CURDATE()';
 
     // Выполняем запрос на подсчет.
     $search_count = count_rows_in_db($search_count_sql, $db_connect);
