@@ -7,8 +7,23 @@ $categories_sql = 'SELECT * FROM categories';
 // Выполняем запрос и конвертируем данные в двумерный массив.
 $categories = get_data_from_db($categories_sql, $db_connect);
 
+// Собираем запро для получения списка ставок
+$my_bets_sql = 'SELECT lots.id, lots.title, lots.img, lots.finish_date,'
+. ' lots.winner_id, categories.name AS category, users.contacts AS contact,'
+. ' bets.bet, bets.create_date'
+. ' FROM bets'
+. ' JOIN lots ON bets.lot_id = lots.id'
+. ' JOIN categories ON lots.category_id = categories.id'
+. ' JOIN users ON lots.author_id = users.id'
+. ' WHERE bets.user_id = ' . $_SESSION['user']['id']
+. ' ORDER BY bets.create_date DESC';
+
+// Выполняем запрос
+$my_bets = get_data_from_db($my_bets_sql, $db_connect);
+
 $content = include_template('my-bets-template.php', [
-    'categories' => $categories
+    'categories' => $categories,
+    'my_bets' => $my_bets
 ]);
 
 // Если пользователь неавторизован, то выдаем ему 403 код.
