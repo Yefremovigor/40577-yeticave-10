@@ -40,13 +40,30 @@ if (empty($lot['id'])) {
     die();
 }
 
-// Если по лоту есть ставка цена = макс ставка.
+// Создаем массив для ставок.
+$bets = [];
+
+// Проверяем есть ли стаки по лоту.
 if (isset($lot['bet'])) {
+    // Если есть ставки, то цена = макс ставка.
     $lot['price'] = $lot['bet'];
+
+    // Формируем запрос на получение списка ставок
+    $bets_sql = 'SELECT bets.user_id, users.name, bets.create_date AS data, bets.bet'
+    . ' FROM bets'
+    . ' JOIN users ON bets.user_id = users.id'
+    . ' WHERE bets.lot_id = "' . $lot_id . '"'
+    . ' ORDER BY bets.create_date DESC'
+    . ' LIMIT 10';
+
+    // Выполняем запрос.
+    $bets = get_data_from_db($bets_sql, $db_connect);
 }
 
 // Считаем минимальную ставку.
 $lot['next_bet'] = $lot['price'] + $lot['bet_step'];
+
+
 
 // Проверяем показывать или нет форму добавления ставки
 $bit_form_toggle = FALSE;
@@ -58,7 +75,8 @@ if (strtotime($lot['finish_date']) > time() AND $is_auth AND $lot['author_id'] !
 $content = include_template('lot-template.php', [
     'categories' => $categories,
     'lot' => $lot,
-    'bit_form_toggle' => $bit_form_toggle
+    'bit_form_toggle' => $bit_form_toggle,
+    'bets' => $bets
 ]);
 
 $layout = include_template('layout.php', [
