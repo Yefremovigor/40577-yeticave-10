@@ -1,5 +1,6 @@
 <?php
 require_once('init.php');
+require_once('getwinner.php');
 
 // Собираем запрос для получения саиска лотов для главной.
 $ads_sql = 'SELECT lots.id, lots.title, categories.name AS category, lots.start_price AS price,'
