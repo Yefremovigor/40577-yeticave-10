@@ -60,3 +60,28 @@ function count_rows_in_db($query, $connect) {
 
     return $count_rows;
 }
+
+function show_when_was($date, $is_date_in_unix = TRUE) {
+    if (!$is_date_in_unix) {
+        $date = strtotime($date);
+    }
+
+    $diff = time() - $date;
+
+    if ($diff > 86400) {
+        return date('d.m.y в H:i', $date);
+    } elseif ($diff > 7200) {
+        $hour = intdiv($diff, 3600);
+        return $hour . ' ' . get_noun_plural_form($hour, 'час', 'часа', 'часов') . ' назад';
+    } elseif ($diff > 3600) {
+        return 'Час назад';
+    } elseif ($diff > 60) {
+        $minute = intdiv($diff, 60);
+        return $minute . ' ' . get_noun_plural_form($minute, 'минута', 'минуты', 'минут') . ' назад';
+    } else {
+        return 'Только что';
+    }
+
+    // $human_date
+    return $diff;
+}
