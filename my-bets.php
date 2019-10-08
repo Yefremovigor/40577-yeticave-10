@@ -7,7 +7,7 @@ $categories_sql = 'SELECT * FROM categories';
 // Выполняем запрос и конвертируем данные в двумерный массив.
 $categories = get_data_from_db($categories_sql, $db_connect);
 
-// Собираем запро для получения списка ставок
+// Собираем запро для получения списка ставок.
 $my_bets_sql = 'SELECT lots.id, lots.title, lots.img, lots.finish_date,'
 . ' lots.winner_id, categories.name AS category, users.contacts AS contact,'
 . ' bets.bet, bets.create_date'
@@ -18,8 +18,23 @@ $my_bets_sql = 'SELECT lots.id, lots.title, lots.img, lots.finish_date,'
 . ' WHERE bets.user_id = ' . $_SESSION['user']['id']
 . ' ORDER BY bets.create_date DESC';
 
-// Выполняем запрос
+// Выполняем запрос.
 $my_bets = get_data_from_db($my_bets_sql, $db_connect);
+
+// Вычисляем статус лота.
+foreach ($my_bets as $key => $value) {
+    $lot_finish_date = strtotime($value['finish_date']);
+    if ($value['winner_id'] == $_SESSION['user']['id']) {
+        $my_bets[$key]['lot_status'] = 'win';
+    } elseif ($lot_finish_date < time()) {
+        $my_bets[$key]['lot_status'] = 'finish';
+    } elseif (3600 > $lot_finish_date - time() AND $lot_finish_date - time() > 0 ) {
+        $my_bets[$key]['lot_status'] = 'is_finish';
+    } else {
+        $my_bets[$key]['lot_status'] = 'on_trades';
+    }
+
+}
 
 $content = include_template('my-bets-template.php', [
     'categories' => $categories,
