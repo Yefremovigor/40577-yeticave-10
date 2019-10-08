@@ -1,6 +1,12 @@
 <?php
 require_once('init.php');
 
+// Если пользователь неавторизован, то выдаем ему 403 код.
+if (empty($_SESSION['user'])) {
+    header("HTTP/1.x 403 Forbidden");
+    exit();
+}
+
 // Собираем запрос для получения саиска категорий.
 $categories_sql = 'SELECT * FROM categories';
 
