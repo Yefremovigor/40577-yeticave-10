@@ -1,0 +1,14 @@
+{
+    "name": "yefremov/yeticave",
+    "description": "Интернет-аукцион горнолыжного оборудования",
+    "require-dev": {
+        "swiftmailer/swiftmailer": "^6.2"
+    },
+    "authors": [
+        {
+            "name": "Игорь",
+            "email": "Yefremovigor@yandex.ru"
+        }
+    ],
+    "require": {}
+}
