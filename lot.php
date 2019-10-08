@@ -73,11 +73,15 @@ $bit_form_toggle = FALSE;
 $is_lot_alive = strtotime($lot['finish_date']) > time();
 
 // Проверяем что пользователь не автор.
-$is_user_lot_author = $lot['author_id'] == $_SESSION['user']['id'];
+if (isset($_SESSION['user'])) {
+    $is_user_lot_author = $lot['author_id'] == $_SESSION['user']['id'];
+} else {
+    $is_user_lot_author = FALSE;
+}
 
 // Проверяем что последняя ставка не от пользователя.
 $is_ussers_bet_last = FALSE;
-if (!empty($bets)) {
+if (!empty($bets) AND isset($_SESSION['user'])) {
     $is_ussers_bet_last = ($bets[0]['user_id']) == $_SESSION['user']['id'];
 }
 
