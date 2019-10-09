@@ -37,7 +37,7 @@ function get_data_from_db($query, $connect, $is_multidimensional = TRUE) {
     return $converted_array;
 }
 
-function getPostVal($name) {
+function get_post_val($name) {
     return $_POST[$name] ?? '';
 }
 
